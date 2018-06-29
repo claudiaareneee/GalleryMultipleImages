@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GalleryMultipleImages</string>
+    <string name="uploadBtn">Upload Images</string>
+    <string name="selectBtn">Select Images</string>
+</resources>
