@@ -26,4 +26,7 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.asksira.android:bsimagepicker:1.0.1'
+
+    def uploadServiceVersion =  "3.4.2"
+    implementation "net.gotev:uploadservice:$uploadServiceVersion"
 }
