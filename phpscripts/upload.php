@@ -50,7 +50,7 @@
 
 	// function getFileName(){
 	// 	$con = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME) or die('Unable to connect');
-	// 	$sql = "SELECT max(id) as id FROM sand_cone_images";
+	// 	$sql = "SELECT max(id) as id FROM images";
 	// 	$result = mysqli_fetch_array(mysqli_query($con,$sql));
 	// 	mysqli_close($con);
 	// 	if($result['id']==null){
