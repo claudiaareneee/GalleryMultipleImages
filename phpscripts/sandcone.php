@@ -7,7 +7,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['name'])){
         $name = $_POST['name'];
 
+        copy("./SFM_core_files/clean_folder.bat",    "./uploads/".$name."/clean_folder.bat");
+        chdir('uploads/'.$name);
+        system("clean_folder.bat");
+        chdir('../..');
+
+        
         try{
+            
             echo getcwd() . "<br>";
 
             copy("./SFM_core_files/makeList.bat",        "./uploads/".$name."/makeList.bat");
@@ -47,3 +54,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     echo json_encode($response);
     echo "<br>SUCCESS!";
 }
+
