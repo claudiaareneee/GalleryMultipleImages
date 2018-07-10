@@ -1,6 +1,7 @@
 package com.example.claudia.gallerymultipleimages;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +22,7 @@ import com.bumptech.glide.Glide;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 import net.gotev.uploadservice.UploadService;
+import net.gotev.uploadservice.http.HttpConnection;
 
 import static net.gotev.uploadservice.UploadService.*;
 
@@ -31,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
     public List<Uri> uriPaths = new ArrayList<>();
     public boolean uriPathsFull = false;
 
-    private static final String UPLOAD_URL ="http://192.168.64.2/UploadExample/upload.php";
+//    private static final String UPLOAD_URL ="http://192.168.64.2/UploadExample/upload.php";
+//    private static final String UPLOAD_URL = getApplicationContext().getResources().getString(R.string.indexURL); //have to move this into the upload func
+    private static final String UPLOAD_URL = "http://134.164.1.251/upload.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
         setContentView(R.layout.activity_main);
         //server demo
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
-
 
         Button selectBtn, uploadBtn;
         //multiple image demo
@@ -54,9 +59,8 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
         editTextName = findViewById(R.id.editTextName);
 
         //This is the file path
-        System.out.println("\n\n************************");
         Context context = getBaseContext();
-        System.out.println(context.getFilesDir());
+        System.out.println("\n\n************************" + context.getFilesDir());
 
         //asynchronous method
         selectBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
                 }
             }
         });
+
     }
     //Multiple images
     @Override
@@ -114,17 +119,17 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
             path = path.substring(path.lastIndexOf("//")+1);
             System.out.println("*\n******\n" + path + "\n******\n");
 
-            uriPaths.add(Uri.parse(path));
+            uriPaths.add(Uri.parse(path)); //Todo: change this to a string list;
             Glide.with(this).load(uriList.get(i)).into(iv);
         }
         uriPathsFull = true;
         System.out.println("\n\nThe uriPaths are: " + uriPaths + "\n\n*****");
     }
 
-    private void uploadImage(int i){
-        String name = editTextName.getText().toString().trim();
+    private void uploadImage(int i){    //TODO: change this to a volley upload service
+        String name = editTextName.getText().toString().trim();//TODO: make this non-edtable, and check whether the project name exists already
         String path = null;
-        try{
+        try{                                   
             path = uriPaths.get(i).toString();
         }catch (NullPointerException e){
             Toast.makeText(this,"There are no files here!!", Toast.LENGTH_LONG).show();
@@ -139,6 +144,11 @@ public class MainActivity extends AppCompatActivity implements BSImagePicker.OnM
                 .setMaxRetries(2)
                 .startUpload();
             Toast.makeText(this,"Uploading !!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(), SandConeActivity.class);
+            intent.putExtra("name", name);
+            startActivity(intent);
+
         }catch (Exception e){
             Toast.makeText(this,"Upload failed :(", Toast.LENGTH_LONG).show();
         }

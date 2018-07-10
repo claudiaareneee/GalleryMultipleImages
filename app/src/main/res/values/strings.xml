@@ -3,4 +3,6 @@
     <string name="uploadBtn">Upload Images</string>
     <string name="selectBtn">Select Images</string>
     <string name="editText">Project name</string>
+    <string name="sandconeBtn">Sand Cone Test</string>
+    <string name="indexURL">"http://134.164.1.251/upload.php"</string>
 </resources>
