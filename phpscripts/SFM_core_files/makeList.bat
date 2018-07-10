@@ -1,0 +1,1 @@
+dir *.jpg /ON /B > list.txt
